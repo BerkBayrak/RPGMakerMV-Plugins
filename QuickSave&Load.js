@@ -10,13 +10,16 @@
  * F8 = Quick Save/Load (slot 4)
  * F9 = Quick Save/Load (slot 5)
  *
- * Not: Her tuş hem kaydetme hem de yükleme için çalışır.
- * Eğer slotta kayıt yoksa yükleme başarısız olur.
+ * Note: Each key is used for both saving and loading.
+ * Hold CTRL + key = Quick Load
+ * Press key only   = Quick Save
+ *
+ * If there is no save file in the slot, quick load will fail.
  */
 
 (function() {
 
-    // Orijinal Scene_Map update
+    // Extend Scene_Map update to detect key presses
     var _Scene_Map_update = Scene_Map.prototype.update;
     Scene_Map.prototype.update = function() {
         _Scene_Map_update.call(this);
@@ -28,7 +31,7 @@
         if (Input.isTriggered("f9")) this.quickHandle(5);
     };
 
-    // Quick Save / Load işlemi
+    // Decide whether to save or load depending on CTRL key
     Scene_Map.prototype.quickHandle = function(slot) {
         if (Input.isPressed("control")) {
             this.quickLoad(slot);
@@ -37,6 +40,7 @@
         }
     };
 
+    // Perform quick save to a specific slot
     Scene_Map.prototype.quickSave = function(savefileId) {
         if (DataManager.isSavefileEnabled()) {
             SoundManager.playSave();
@@ -46,6 +50,7 @@
         }
     };
 
+    // Perform quick load from a specific slot
     Scene_Map.prototype.quickLoad = function(savefileId) {
         if (DataManager.isThisGameFile(savefileId)) {
             SoundManager.playLoad();

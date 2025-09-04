@@ -8,7 +8,6 @@
  * Characters: 2x
  * Camera always centers on player
  */
-
 (function() {
     var mapZoom = 1.2;   // map zoom
     var charZoom = 1.4;  // character zoom
